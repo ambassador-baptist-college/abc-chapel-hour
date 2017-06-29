@@ -91,3 +91,40 @@ function filter_chapel_hour_page_title( $title, $id = NULL ) {
     return $title;
 }
 add_filter( 'custom_title', 'filter_chapel_hour_page_title' );
+
+/**
+ * Add Chapel Hour meta to post content
+ * @param  string $content HTML post content
+ * @return string modified HTML post content
+ */
+function chapel_hour_episode_meta( $content ) {
+    $media_file = get_field( 'media_file' );
+
+    if ( 'chapel_hour' == get_post_type() && $media_file ) {
+        // set attributes
+        $audio_attrs  = array(
+            'src'       => $media_file,
+            'loop'      => 0,
+            'autoplay'  => 0,
+            'preload'   => 'auto',
+        );
+        $content = wp_audio_shortcode( $audio_attrs ) . '<p>Download file: <a class="dashicons dashicons-download" href="' . $media_file . '"><span class="screen-reader-text">Download here</span></a></p>' . $content;
+
+        // add speaker name to entry-footer
+        add_action( 'custom_footer_meta', 'chapel_hour_footer_meta' );
+    }
+
+    return $content;
+}
+add_filter( 'the_content', 'chapel_hour_episode_meta', 8 );
+add_filter( 'the_excerpt', 'chapel_hour_episode_meta', 8 );
+
+/**
+ * Print the speaker’s name and episode date
+ */
+function chapel_hour_footer_meta() {
+    if ( get_field( 'speaker_name' ) ) {
+        the_field( 'speaker_name' );
+        echo '<span class="posted-on">' . get_the_date() . '</span>';
+    }
+}
