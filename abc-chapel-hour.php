@@ -128,3 +128,45 @@ function chapel_hour_footer_meta() {
         echo '<span class="posted-on">' . get_the_date() . '</span>';
     }
 }
+
+/**
+ * Add shortcode for chapel hour archive
+ * @param  array  $atts shortcode attributes
+ * @return string HTML string of generated content
+ */
+function chapel_hour_archive_shortcode( $atts ) {
+    $args = shortcode_atts(
+        array(),
+        $atts
+    );
+    $shortcode_output = '<section class="chapel-hour-episodes site-main">';
+
+    // WP_Query arguments
+    $args = array (
+        'post_type'              => array( 'chapel_hour' ),
+        'posts_per_page'         => '10',
+    );
+
+    // the query
+    $chapel_hour_query = new WP_Query( $args );
+
+    // the loop
+    if ( $chapel_hour_query->have_posts() ) {
+        ob_start();
+        while ( $chapel_hour_query->have_posts() ) {
+            $chapel_hour_query->the_post();
+            get_template_part( 'template-parts/content', 'single' );
+        }
+        $shortcode_output .= ob_get_clean();
+    }
+
+    // Restore original post data
+    wp_reset_postdata();
+    $shortcode_output .= '
+    <p><a href="' . get_post_type_archive_link( 'chapel_hour' ) . '">All Episodes</a></p>
+    </section>';
+
+    // return content
+    return $shortcode_output;
+}
+add_shortcode( 'chapel_hour_archive', 'chapel_hour_archive_shortcode' );
