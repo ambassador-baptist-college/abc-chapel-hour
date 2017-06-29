@@ -77,7 +77,7 @@ add_action( 'init', 'chapel_hour_post_type', 0 );
 
 // Modify the page title
 function filter_chapel_hour_page_title( $title, $id = NULL ) {
-    if ( is_post_type_archive( 'Chapel Hour Episode' ) ) {
+    if ( is_post_type_archive( 'chapel_hour' ) ) {
           $title = 'Chapel Hour Episodes';
     }
 
