@@ -13,7 +13,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Register Custom Post Type
+/**
+ * Register Chapel Hour CPT
+ */
 function chapel_hour_post_type() {
 
     $labels = array(
@@ -75,7 +77,12 @@ function chapel_hour_post_type() {
 }
 add_action( 'init', 'chapel_hour_post_type', 0 );
 
-// Modify the page title
+/**
+ * Modify Chapel Hour Archives title
+ * @param  string  $title       WP page title
+ * @param  integer [$id         = NULL] WP page ID
+ * @return string  modified page title
+ */
 function filter_chapel_hour_page_title( $title, $id = NULL ) {
     if ( is_post_type_archive( 'chapel_hour' ) ) {
           $title = 'Chapel Hour Episodes';
