@@ -100,7 +100,7 @@ add_filter( 'custom_title', 'filter_chapel_hour_page_title' );
 function chapel_hour_episode_meta( $content ) {
     $media_file = get_field( 'media_file' );
 
-    if ( 'chapel_hour' == get_post_type() && $media_file ) {
+    if ( 'chapel_hour' == get_post_type() && $media_file && ! is_feed() ) {
         // set attributes
         $audio_attrs  = array(
             'src'       => $media_file,
