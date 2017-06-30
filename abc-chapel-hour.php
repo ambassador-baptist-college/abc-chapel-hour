@@ -173,3 +173,30 @@ function chapel_hour_archive_shortcode( $atts ) {
     return $shortcode_output;
 }
 add_shortcode( 'chapel_hour_archive', 'chapel_hour_archive_shortcode' );
+
+/**
+ * Register Chapel Hour RSS feed
+ */
+function register_chapel_hour_rss() {
+    add_feed( 'chapel-hour', 'generate_chapel_hour_rss' );
+}
+add_action( 'init', 'register_chapel_hour_rss' );
+
+/**
+ * Generate RSS feed content
+ */
+function generate_chapel_hour_rss() {
+    require_once( 'inc/rss-chapel-hour-podcast.php' );
+}
+
+/**
+ * Add ACF options page for podcast feed options
+ */
+function chapel_hour_options() {
+    acf_add_options_sub_page( array(
+        'page_title'    => 'Podcast Settings',
+        'menu_title'    => 'Podcast Settings',
+        'parent_slug'   => 'edit.php?post_type=chapel_hour',
+    ) );
+}
+add_action( 'after_setup_theme', 'chapel_hour_options' );
