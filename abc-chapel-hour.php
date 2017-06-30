@@ -124,9 +124,12 @@ add_filter( 'the_excerpt', 'chapel_hour_episode_meta', 8 );
  */
 function chapel_hour_footer_meta() {
     if ( get_field( 'speaker_name' ) ) {
-        the_field( 'speaker_name' );
-        echo '<span class="posted-on">' . get_the_date() . '</span>';
+        echo '<span class="byline">' . get_field( 'speaker_name' ) . '</span>';
     }
+    if ( get_field( 'media_duration' ) ) {
+        echo '<span class="byline">Duration: ' . ltrim( get_field( 'media_duration' ), '00:' ) . '</span>';
+    }
+    echo '<span class="posted-on">' . get_the_date() . '</span>';
 }
 
 /**
