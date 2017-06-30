@@ -10,19 +10,6 @@ $args = array(
 );
 $loop = new WP_Query( $args );
 
-/**
- * Get the current URL taking into account HTTPS and Port
- * @link http://css-tricks.com/snippets/php/get-current-page-url/
- * @version Refactored by @AlexParraSilva
- */
-function getCurrentUrl() {
-    $url  = isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http';
-    $url .= '://' . $_SERVER['SERVER_NAME'];
-    $url .= in_array( $_SERVER['SERVER_PORT'], array( '80', '443' ) ) ? '' : ':' . $_SERVER['SERVER_PORT'];
-    $url .= $_SERVER['REQUEST_URI'];
-    return $url;
-}
-
 // Output the XML header
 header( 'Content-Type: ' . feed_content_type( 'rss-http' ) . '; charset=' . get_option( 'blog_charset' ), true );
 echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>';
