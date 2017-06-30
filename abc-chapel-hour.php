@@ -14,6 +14,16 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Flush rewrite rules on plugin (de)activation
+ */
+function chapel_hour_flush_rewrite_rules() {
+    chapel_hour_post_type();
+    flush_rewrite_rules();
+}
+register_activation_hook( __FILE__, 'chapel_hour_flush_rewrite_rules' );
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+
+/**
  * Register Chapel Hour CPT
  */
 function chapel_hour_post_type() {
